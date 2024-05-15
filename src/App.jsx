@@ -42,6 +42,8 @@ function App() {
   };
 
   const fetchShortUrls = async () => {
+    setLoading(true);
+
     common
       .getShortUrls()
       .then((res) => {
@@ -49,10 +51,14 @@ function App() {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const urlPattern =
       /^(https?:\/\/)?([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
@@ -78,6 +84,9 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -166,71 +175,79 @@ function App() {
           {displaylongurl && <div>{copiedUrl?.longurl}</div>}
         </>
       )}
-      <div className="table-responsive">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Full URL</th>
-              <th>Short URL</th>
-              <th>Clicks</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {shortUrls.map((shortUrl) => (
-              <tr key={shortUrl._id}>
-                <td className="full-url">
-                  <a href={shortUrl.full}>{shortUrl.full}</a>
-                </td>
-                <td
-                  style={{
-                    display: "flex",
-                    width: "100px",
-                    overflow: "hidden",
-                  }}
-                >
-                  {/* eslint-disable-next-line */}
-                  <a href={process.env.REACT_APP_BASE_URL + shortUrl.short}>
-                    {shortUrl.short}
-                  </a>
-                </td>
-                <td>{shortUrl.clicks}</td>
-                <td>
-                  <button
-                    className="btn btn-info btn-sm mr-2"
-                    onClick={() => handleCopy(shortUrl.short, shortUrl.full)}
-                  >
-                    Copy
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <button
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
-        >
-          Previous
-        </button>
-        <span>{page}</span>
-        <button
-          onClick={() => handlePageChange(page + 1)}
-          disabled={shortUrls.length < limit}
-        >
-          Next
-        </button>
-        <select
-          value={limit}
-          onChange={(e) => handleLimitChange(Number(e.target.value))}
-        >
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-        </select>
-      </div>
+      {loading ? (
+        <div className="loader">Loading...</div>
+      ) : (
+        <>
+          <div className="table-responsive">
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Full URL</th>
+                  <th>Short URL</th>
+                  <th>Clicks</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {shortUrls.map((shortUrl) => (
+                  <tr key={shortUrl._id}>
+                    <td className="full-url">
+                      <a href={shortUrl.full}>{shortUrl.full}</a>
+                    </td>
+                    <td
+                      style={{
+                        display: "flex",
+                        width: "100px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {/* eslint-disable-next-line */}
+                      <a href={process.env.REACT_APP_BASE_URL + shortUrl.short}>
+                        {shortUrl.short}
+                      </a>
+                    </td>
+                    <td>{shortUrl.clicks}</td>
+                    <td>
+                      <button
+                        className="btn btn-info btn-sm mr-2"
+                        onClick={() =>
+                          handleCopy(shortUrl.short, shortUrl.full)
+                        }
+                      >
+                        Copy
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
+            >
+              Previous
+            </button>
+            <span>{page}</span>
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={shortUrls.length < limit}
+            >
+              Next
+            </button>
+            <select
+              value={limit}
+              onChange={(e) => handleLimitChange(Number(e.target.value))}
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+            </select>
+          </div>
+        </>
+      )}
     </div>
   );
 }
