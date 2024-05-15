@@ -175,6 +175,7 @@ function App() {
               </thead>
               <tbody>
                 {shortUrls.map((shortUrl,index) => (
+                  {/* eslint-disable-next-line */}
                   <tr key={index}>
                         style={{
                         maxWidth: "600px",
