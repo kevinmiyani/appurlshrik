@@ -27,8 +27,11 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+/* eslint-disable-next-line */
+ const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
 
-    if (!fullUrl) {
+    if (!urlPattern.test(fullUrl)) {
 /* eslint-disable-next-line */
       alert(
         "Please enter a valid URL. The URL must include a protocol (http:// or https://) and a domain name ending in .com, .org, or similar."
@@ -142,7 +145,8 @@ function App() {
                   <a href={shortUrl.full}>{shortUrl.full}</a>
                 </td>
                 <td>
-                 <a href={shortUrl.short}>{shortUrl.short}</a>
+                  /* eslint-disable-next-line */
+                 <a href={"https://short-link-jade.vercel.app/" + shortUrl.short}>{shortUrl.short}</a>
                 </td>
                 <td>{shortUrl.clicks}</td>
                 <td>
