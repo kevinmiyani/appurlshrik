@@ -175,8 +175,8 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {shortUrls.map((shortUrl) => (
-                  <tr key={shortUrl._id}>
+                {shortUrls.map((shortUrl,index) => (
+                  <tr key={index}>
                         style={{
                         maxWidth: "600px",
                         overflow: "hidden",
