@@ -68,7 +68,7 @@ function App() {
   };
 
   const handleRedirect = (shortUrl) => {
-    window.open("https://short-link-jade.vercel.app/" + shortUrl, "_blank");
+    window.open(process.env.REACT_APP_BASE_URL + shortUrl, "_blank");
   };
 
   return (
@@ -146,7 +146,7 @@ function App() {
                 </td>
                 <td>
                 {/* eslint-disable-next-line */}
-                 <a href={"https://short-link-jade.vercel.app/" + shortUrl.short}>{shortUrl.short}</a>
+                 <a href={process.env.REACT_APP_BASE_URL + shortUrl.short}>{shortUrl.short}</a>
                 </td>
                 <td>{shortUrl.clicks}</td>
                 <td>
