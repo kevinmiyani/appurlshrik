@@ -41,21 +41,6 @@ function App() {
     setPage(1);
   };
 
-  const fetchShortUrls = async () => {
-    setLoading(true);
-
-    common
-      .getShortUrls()
-      .then((res) => {
-        setShortUrls(res?.data.shortUrls);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -78,7 +63,7 @@ function App() {
     common
       .addShorlURls(formData.toString())
       .then((res) => {
-        fetchShortUrls();
+        fetchData();
         setFullUrl("");
         setUrlLength(4);
       })
