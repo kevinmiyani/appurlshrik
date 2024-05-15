@@ -177,8 +177,12 @@ function App() {
               <tbody>
                 {shortUrls.map((shortUrl) => (
                   <tr key={shortUrl._id}>
-                    <td className="full-url">
-                      <a href={shortUrl.full}>{shortUrl.full}</a>
+                        style={{
+                        maxWidth: "600px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }} <a href={shortUrl.full}>{shortUrl.full}</a>
                     </td>
                     <td
                       style={{
