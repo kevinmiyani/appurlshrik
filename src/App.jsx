@@ -145,7 +145,7 @@ function App() {
                   <a href={shortUrl.full}>{shortUrl.full}</a>
                 </td>
                 <td>
-                  /* eslint-disable-next-line */
+                {/* eslint-disable-next-line */}
                  <a href={"https://short-link-jade.vercel.app/" + shortUrl.short}>{shortUrl.short}</a>
                 </td>
                 <td>{shortUrl.clicks}</td>
