@@ -142,7 +142,7 @@ function App() {
                   <a href={shortUrl.full}>{shortUrl.full}</a>
                 </td>
                 <td>
-                 <a href= href={"https://short-link-jade.vercel.app/"shortUrl.short}>{shortUrl.short}</a>
+                 <a href={"https://short-link-jade.vercel.app/"shortUrl.short}>{shortUrl.short}</a>
                 </td>
                 <td>{shortUrl.clicks}</td>
                 <td>
