@@ -159,6 +159,7 @@ function App() {
           {displaylongurl && <div>{copiedUrl?.longurl}</div>}
         </>
       )}
+        {/* eslint-disable-next-line */}
       {loading ? (
         <div className="loader">Loading...</div>
       ) : (
