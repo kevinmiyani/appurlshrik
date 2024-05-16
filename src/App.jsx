@@ -20,7 +20,6 @@ function App() {
   const fetchData = async () => {
     setLoading(true);
     try {
-        {/* eslint-disable-next-line */}
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/getpagedata?page=${page}&limit=${limit}`);
       const data = await response.json();
       setShortUrls(data.shortUrls);
@@ -180,7 +179,7 @@ function App() {
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
-                      }}? <a href={shortUrl.full}>{shortUrl.full}</a>
+                      }}> <a href={shortUrl.full}>{shortUrl.full}</a>
                     </td>
                     <td
                       style={{
