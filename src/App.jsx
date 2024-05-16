@@ -20,7 +20,7 @@ function App() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/getpagedata?page=${page}&limit=${limit}`);
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}getpagedata?page=${page}&limit=${limit}`);
       const data = await response.json();
       setShortUrls(data.shortUrls);
     } catch (error) {
