@@ -173,21 +173,18 @@ function App() {
               </thead>
               <tbody>
                 {shortUrls.map((shortUrl,index) => (
-                  <tr key={index}
-                        style={{
+                 <tr key={shortUrl._id}>
+                    <td
+                      style={{
                         maxWidth: "600px",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
-                      }}> <a href={shortUrl.full}>{shortUrl.full}</a>
-                    </td>
-                    <td
-                      style={{
-                        display: "flex",
-                        width: "100px",
-                        overflow: "hidden",
                       }}
                     >
+                      <a href={shortUrl.full}>{shortUrl.full}</a>
+                    </td>
+                    <td>
                       {/* eslint-disable-next-line */}
                       <a href={process.env.REACT_APP_BASE_URL + shortUrl.short}>
                         {shortUrl.short}
