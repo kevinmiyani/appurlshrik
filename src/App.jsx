@@ -86,7 +86,7 @@ function App() {
   };
 
   const handleRedirect = (shortUrl) => {
-    window.open(process.env.REACT_APP_BASE_URL + shortUrl, "_blank");
+    window.open(process.env.REACT_APP_BASE_URL + shortUrl?.short, "_blank");
   };
 
   const handleonSubmit = () => {
