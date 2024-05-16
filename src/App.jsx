@@ -159,7 +159,6 @@ function App() {
           {displaylongurl && <div>{copiedUrl?.longurl}</div>}
         </>
       )}
-        {/* eslint-disable-next-line */}
       {loading ? (
         <div className="loader">Loading...</div>
       ) : (
@@ -176,14 +175,13 @@ function App() {
               </thead>
               <tbody>
                 {shortUrls.map((shortUrl,index) => (
-                  {/* eslint-disable-next-line */}
-                  <tr key={index}>
+                  <tr key={index}
                         style={{
                         maxWidth: "600px",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
-                      }} <a href={shortUrl.full}>{shortUrl.full}</a>
+                      }}? <a href={shortUrl.full}>{shortUrl.full}</a>
                     </td>
                     <td
                       style={{
