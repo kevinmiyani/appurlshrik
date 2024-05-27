@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
 import { common } from "./config/call";
 
 function App() {
   const [fullUrl, setFullUrl] = useState("");
   const [urlLength, setUrlLength] = useState(4);
-
   const [shortUrls, setShortUrls] = useState([]);
   const [copiedUrl, setCopiedUrl] = useState("");
-  const [displaylongurl, setDisplaylongurl] = useState(false);
+  const [displayLongUrl, setDisplayLongUrl] = useState(false);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -20,7 +18,9 @@ function App() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}getpagedata?page=${page}&limit=${limit}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}getpagedata?page=${page}&limit=${limit}`
+      );
       const data = await response.json();
       setShortUrls(data.shortUrls);
     } catch (error) {
@@ -39,17 +39,16 @@ function App() {
     setPage(1);
   };
 
-
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-  {/* eslint-disable-next-line */}
-    const urlPattern =/^(https?:\/\/)?([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
+    const urlPattern =
+      /^(https?:\/\/)?([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
     if (!urlPattern.test(fullUrl)) {
-      /* eslint-disable-next-line */
       alert(
         "Please enter a valid URL. The URL must include a protocol (http:// or https://) and a domain name ending in .com, .org, or similar."
       );
+      setLoading(false);
       return;
     }
 
@@ -72,9 +71,9 @@ function App() {
       });
   };
 
-  const handleCopy = (shortUrl, longurl) => {
-    setDisplaylongurl(false);
-    setCopiedUrl({ short: shortUrl, longurl: longurl });
+  const handleCopy = (shortUrl, longUrl) => {
+    setDisplayLongUrl(false);
+    setCopiedUrl({ short: shortUrl, longUrl: longUrl });
     navigator.clipboard.writeText(shortUrl).then(
       () => {
         console.log("URL copied to clipboard");
@@ -89,147 +88,168 @@ function App() {
     window.open(process.env.REACT_APP_BASE_URL + shortUrl?.short, "_blank");
   };
 
-  const handleonSubmit = () => {
-    setDisplaylongurl(true);
+  const handleShowLongUrl = () => {
+    setDisplayLongUrl(true);
   };
+
   return (
-    <div className="content">
-      <h1>URL Shrinker</h1>
-      <form onSubmit={handleSubmit} className="my-4 form-inline">
-        <label htmlFor="fullUrl" className="sr-only">
-          Url
-        </label>
-        <input
-          required
-          placeholder="Url"
-          type="url"
-          name="fullUrl"
-          id="fullUrl"
-          className="form-control col mr-2 my-input"
-          value={fullUrl}
-          onChange={(e) => setFullUrl(e.target.value)}
-        />
-        <label htmlFor="urlLength" className="sr-only">
-          Length
-        </label>
-        <input
-          required
-          placeholder="Desired Length"
-          type="number"
-          name="urlLength"
-          id="urlLength"
-          className="form-control col mr-2 my-input"
-          min="4"
-          value={urlLength}
-          onChange={(e) => setUrlLength(e.target.value)}
-        />
-        <button className="btn btn-custom" type="submit">
-          Shrink
-        </button>
-      </form>
-      {copiedUrl && (
-        <>
-          <div
-            style={{
-              margin: 10,
-            }}
+    <div className="bg-gray-200 min-h-screen p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8 text-blue-700">Task Overview</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col md:flex-row md:space-x-4"
+        >
+          <input
+            required
+            placeholder="Enter your URL"
+            type="url"
+            name="fullUrl"
+            id="fullUrl"
+            className="flex-grow py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+            value={fullUrl}
+            onChange={(e) => setFullUrl(e.target.value)}
+          />
+          <input
+            required
+            placeholder="Desired Length"
+            type="number"
+            name="urlLength"
+            id="urlLength"
+            className="w-24 md:w-auto mt-4 md:mt-0 py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+            min="4"
+            value={urlLength}
+            onChange={(e) => setUrlLength(e.target.value)}
+          />
+          <button
+            className="w-full md:w-auto mt-4 md:mt-0 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+            type="submit"
           >
-            <label>Copied URL: </label>
-            <input
-              className="form-control"
-              type="text"
-              value={copiedUrl?.short}
-              readOnly
-            />
+            Shrink
+          </button>
+        </form>
+      </div>
+      {copiedUrl && (
+        <div className="max-w-4xl mx-auto mt-8 p-4 bg-white rounded border border-gray-300">
+          <label className="block font-bold">Copied URL:</label>
+          <input
+            className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500 mb-4"
+            type="text"
+            value={copiedUrl?.short}
+            readOnly
+          />
+          <div className="flex justify-between">
             <button
-              className="btn btn-primary btn-sm"
+              className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
               onClick={() => handleRedirect(copiedUrl)}
             >
               Redirect
             </button>
             <button
-              className="btn btn-primary btn-sm"
-              onClick={() => handleonSubmit()}
+              className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+              onClick={handleShowLongUrl}
             >
               Submit
             </button>
           </div>
-          {displaylongurl && <div>{copiedUrl?.longurl}</div>}
-        </>
+          {displayLongUrl && (
+            <div className="mt-4 break-all">{copiedUrl?.longUrl}</div>
+          )}
+        </div>
       )}
       {loading ? (
-        <div className="loader">Loading...</div>
+        <div className="text-center">Loading...</div>
       ) : (
-        <>
-          <div className="table-responsive">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>Full URL</th>
-                  <th>Short URL</th>
-                  <th>Clicks</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shortUrls.map((shortUrl,index) => (
-                 <tr key={shortUrl._id}>
-                    <td
-                      style={{
-                        maxWidth: "600px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
+        <div className="max-w-4xl mx-auto mt-8 overflow-x-auto">
+          <table className="w-full bg-white rounded border border-gray-300">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 bg-gray-200 border-b border-gray-300">
+                  Full URL
+                </th>
+                <th className="py-2 px-4 bg-gray-200 border-b border-gray-300">
+                  Short URL
+                </th>
+                <th className="py-2 px-4 bg-gray-200 border-b border-gray-300">
+                  Clicks
+                </th>
+                <th className="py-2 px-4 bg-gray-200 border-b border-gray-300">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {shortUrls.map((shortUrl, index) => (
+                <tr
+                  key={shortUrl._id}
+                  className={index % 2 === 0 ? "bg-gray-100" : ""}
+                >
+                  <td className="py-2 px-4 border-b border-gray-300 max-w-xs overflow-hidden whitespace-nowrap text-overflow-ellipsis ">
+                    <a
+                      href={shortUrl.full}
+                      className="text-blue-500 hover:underline"
                     >
-                      <a href={shortUrl.full}>{shortUrl.full}</a>
-                    </td>
-                    <td>
-                      {/* eslint-disable-next-line */}
-                      <a href={process.env.REACT_APP_BASE_URL + shortUrl.short}>
-                        {shortUrl.short}
-                      </a>
-                    </td>
-                    <td>{shortUrl.clicks}</td>
-                    <td>
-                      <button
-                        className="btn btn-info btn-sm mr-2"
-                        onClick={() =>
-                          handleCopy(shortUrl.short, shortUrl.full)
-                        }
-                      >
-                        Copy
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div>
+                      {shortUrl.full}
+                    </a>
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-300 max-w-xs overflow-hidden whitespace-nowrap text-overflow-ellipsis text-center">
+                    <a
+                      href={process.env.REACT_APP_BASE_URL + shortUrl.short}
+                      className="text-blue-500 hover:underline"
+                    >
+                      {shortUrl.short}
+                    </a>
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-300 text-center">
+                    {shortUrl.clicks}
+                  </td>
+                  <td className="flex py-2 px-4 border-b border-gray-300 items-center justify-center">
+                    <button
+                      className="py-1 px-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+                      onClick={() => handleCopy(shortUrl.short, shortUrl.full)}
+                    >
+                      Copy
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="flex items-center mt-4">
             <button
               onClick={() => handlePageChange(page - 1)}
               disabled={page === 1}
+              className={`py-1 px-2 mr-2 bg-gray-300 text-gray-600 rounded ${
+                page === 1
+                  ? "cursor-not-allowed"
+                  : "hover:bg-gray-400 transition duration-300"
+              }`}
             >
               Previous
             </button>
-            <span>{page}</span>
+            <span className="mx-2">{page}</span>
             <button
               onClick={() => handlePageChange(page + 1)}
               disabled={shortUrls.length < limit}
+              className={`py-1 px-2 mr-2 bg-gray-300 text-gray-600 rounded ${
+                shortUrls.length < limit
+                  ? "cursor-not-allowed"
+                  : "hover:bg-gray-400 transition duration-300"
+              }`}
             >
               Next
             </button>
             <select
               value={limit}
               onChange={(e) => handleLimitChange(Number(e.target.value))}
+              className="py-1 px-2 bg-gray-300 text-gray-600 rounded focus:outline-none"
             >
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={20}>20</option>
             </select>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
